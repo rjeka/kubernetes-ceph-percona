@@ -1,0 +1,32 @@
+- name: Create dirs
+  file:
+    path: /opt/archives
+    state: directory
+
+- name: Get etcd archive
+  get_url:
+    url: https://github.com/coreos/etcd/releases/download/{{etcd_version}}/etcd-{{etcd_version}}-linux-amd64.tar.gz
+    dest: /opt/archives/etcd-{{etcd_version}}-linux-amd64.tar.gz
+
+- name: Get and unpack etcd
+  shell: |
+    tar -xvf etcd-{{etcd_version}}-linux-amd64.tar.gz -C /usr/local/bin/ --strip-components=1
+  args:
+    chdir: /opt/archives
+
+- name: Create systemd service for etcd
+  template:
+    src: etcd.service.tmpl
+    dest: "/etc/systemd/system/etcd.service"
+
+- name: Create etcd env file
+  template:
+    src: etcd.env.tmpl
+    dest: /etc/etcd.env
+
+- name: Enable and start etc cluster
+  systemd:
+    name: etcd
+    state: started
+    enabled: yes
+    daemon_reload: yes
