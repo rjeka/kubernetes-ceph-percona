@@ -36,17 +36,18 @@ export ETCD_VERSION="v3.3.10"
 ##############################
 
 # config etcd cluster
-touch /etc/etcd.env
-echo PEER_NAME=$(hostname) > /etc/etcd.env
-echo PRIVATE_IP=$(hostname -i) >> /etc/etcd.env
-
-sed \
--e "s/K8SHA_IPLOCAL/$(hostname -i)/g" \
--e "s/K8SHA_IP1/$K8SHA_IP1/g" \
--e "s/K8SHA_IP2/$K8SHA_IP2/g" \
--e "s/K8SHA_IP3/$K8SHA_IP3/g" \
--e "s/K8SHA_ETCDNAME/$(hostname)/g" \
--e "s/K8SHA_HOSTNAME1/$K8SHA_HOSTNAME1/g" \
--e "s/K8SHA_HOSTNAME2/$K8SHA_HOSTNAME2/g" \
--e "s/K8SHA_HOSTNAME3/$K8SHA_HOSTNAME3/g" \
-template/etcd.service.tmpl > /etc/systemd/system/etcd.service
+if [[ $1 == 'etcd' ]] || [[ $1 == 'all ]]; then
+  touch /etc/etcd.env
+  echo PEER_NAME=$(hostname) > /etc/etcd.env
+  echo PRIVATE_IP=$(hostname -i) >> /etc/etcd.env
+  sed \
+  -e "s/K8SHA_IPLOCAL/$(hostname -i)/g" \
+  -e "s/K8SHA_IP1/$K8SHA_IP1/g" \
+  -e "s/K8SHA_IP2/$K8SHA_IP2/g" \
+  -e "s/K8SHA_IP3/$K8SHA_IP3/g" \
+  -e "s/K8SHA_ETCDNAME/$(hostname)/g" \
+  -e "s/K8SHA_HOSTNAME1/$K8SHA_HOSTNAME1/g" \
+  -e "s/K8SHA_HOSTNAME2/$K8SHA_HOSTNAME2/g" \
+  -e "s/K8SHA_HOSTNAME3/$K8SHA_HOSTNAME3/g" \
+  template/etcd.service.tmpl > /etc/systemd/system/etcd.service
+fi
