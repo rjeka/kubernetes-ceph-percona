@@ -36,7 +36,7 @@ export ETCD_VERSION="v3.3.10"
 ##############################
 
 # config etcd cluster
-if [[ $1 == 'etcd' ]] || [[ $1 == 'all ]]; then
+if [[ $1 == 'etcd' ]] || [[ $1 == 'all' ]]; then
   touch /etc/etcd.env
   echo PEER_NAME=$(hostname) > /etc/etcd.env
   echo PRIVATE_IP=$(hostname -i) >> /etc/etcd.env
