@@ -1,0 +1,9 @@
+- name: Setting Up docker to masters and worknodes
+  hosts: masters
+  become: yes
+  become_method: sudo
+
+  tasks:
+    - name: Install docker
+      include_role:
+        name: docker

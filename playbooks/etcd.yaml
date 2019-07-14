@@ -1,13 +1,9 @@
-- name: Setting Up kubernetes masters
+- name: Setting Up etcd
   hosts: masters
   become: yes
   become_method: sudo
 
   tasks:
-    - name: Install etcd and keepalived
+    - name: Install etcd
       include_role:
-        name: "{{ item }}"
-      with_items:
-      - etcd
-      #- docker
-      #- kubelet
+        name: etcd

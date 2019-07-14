@@ -1,0 +1,9 @@
+- name: Setting Up kubernetes programs
+  hosts: masters
+  become: yes
+  become_method: sudo
+
+  tasks:
+    - name: Install kubelet, kubeadm, kubectl
+      include_role:
+        name: kubelet

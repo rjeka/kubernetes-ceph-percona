@@ -1,0 +1,35 @@
+- name: Preinstall packages
+  apt:
+    name: ['apt-transport-https', 'ca-certificates', 'software-properties-common', 'curl', 'gnupg2']
+    update_cache: yes
+
+
+- name: Add docker gpg key
+  apt_key:
+    url: https://download.docker.com/linux/debian/gpg
+    state: present
+
+- name: Remove a Apt specific signing key, leading 0x is valid
+  apt_key:
+    id: 0EBFCD88
+    state: present
+
+- name:  Get docker repositorie
+  shell: |
+    echo "deb https://download.docker.com/linux/$(. /etc/os-release; echo "$ID") $(lsb_release -cs) stable"
+  register: debString
+
+
+- name: Add docker repo in /etc/apt/sources.list
+  lineinfile:
+    path: /etc/apt/sources.list
+    line: "{{debString.stdout}}"
+
+- name: Update apt cache
+  apt:
+    update_cache: yes
+
+
+- name: Installing docker
+  apt:
+    name: ['docker-ce', 'docker-ce-cli', 'containerd.io']
