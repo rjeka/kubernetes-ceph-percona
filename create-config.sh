@@ -55,14 +55,15 @@ if [[ $1 == 'etcd' ]] || [[ $1 == 'all' ]]; then
 fi
 
 if [[ $1 == 'docker' ]]; then
-  sed \
   if [[ $(hostname) == master01 ]]; then
-  -e "s/HOSTNAME/etcd1/g" \
+  etcd_host=etcd1
   elif [[ $(hostname) == master02 ]]; then
-  -e "s/HOSTNAME/etcd2/g" \
+  etcd_host=etcd2
   elif [[ $(hostname) == master03 ]]; then
-  -e "s/IPLOCAL/etcd3/g" \
-  fi
+  etcd_host=etcd3
+fi
+  sed \
+  -e "s/HOSTNAME/$etcd_host/g" \
   -e "s/K8SHA_IP1/$K8SHA_IP1/g" \
   -e "s/K8SHA_IP2/$K8SHA_IP2/g" \
   -e "s/K8SHA_IP3/$K8SHA_IP3/g" \
