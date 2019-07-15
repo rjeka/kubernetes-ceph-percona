@@ -54,10 +54,14 @@ if [[ $1 == 'etcd' ]] || [[ $1 == 'all' ]]; then
   cat /etc/systemd/system/etcd.service
 fi
 
-if [[ $1 == 'docker' ]] ; then
+if [[ $1 == 'docker' ]]; then
   sed \
-  -e "s/HOSTNAME/$(hostname)/g" \
-  -e "s/IPLOCAL/$(hostname -i)/g" \
+  if [[ $(hostname) == master01 ]]; then
+  -e "s/HOSTNAME/etcd1/g" \
+  elif [[ $(hostname) == master02 ]]; then
+  -e "s/HOSTNAME/etcd2/g" \
+  elif [[ $(hostname) == master03 ]]; then
+  -e "s/IPLOCAL/etcd3/g" \
   -e "s/K8SHA_IP1/$K8SHA_IP1/g" \
   -e "s/K8SHA_IP2/$K8SHA_IP2/g" \
   -e "s/K8SHA_IP3/$K8SHA_IP3/g" \
