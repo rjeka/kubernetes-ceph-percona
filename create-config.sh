@@ -62,6 +62,6 @@ if [[ $1 == 'docker' ]] ; then
   -e "s/K8SHA_IP2/$K8SHA_IP2/g" \
   -e "s/K8SHA_IP3/$K8SHA_IP3/g" \
   etcd-docker/docker-compose.yaml.tpl > etcd-docker/docker-compose.yaml
-  echo docker-compose file create cat etcd-docker/docker-compose.yaml
-  cat
+  echo docker-compose file create
+  cat etcd-docker/docker-compose.yaml
 fi
