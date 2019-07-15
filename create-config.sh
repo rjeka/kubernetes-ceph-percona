@@ -62,6 +62,7 @@ if [[ $1 == 'docker' ]]; then
   -e "s/HOSTNAME/etcd2/g" \
   elif [[ $(hostname) == master03 ]]; then
   -e "s/IPLOCAL/etcd3/g" \
+  fi
   -e "s/K8SHA_IP1/$K8SHA_IP1/g" \
   -e "s/K8SHA_IP2/$K8SHA_IP2/g" \
   -e "s/K8SHA_IP3/$K8SHA_IP3/g" \
