@@ -50,6 +50,8 @@ if [[ $1 == 'etcd' ]] || [[ $1 == 'all' ]]; then
   -e "s/K8SHA_HOSTNAME2/$K8SHA_HOSTNAME2/g" \
   -e "s/K8SHA_HOSTNAME3/$K8SHA_HOSTNAME3/g" \
   etcd/etcd.service.tmpl > /etc/systemd/system/etcd.service
+  echo etcd config copy to /etc/systemd/system/etcd.service
+  cat /etc/systemd/system/etcd.service
 fi
 
 if [[ $1 == 'docker' ]] ; then
@@ -59,5 +61,7 @@ if [[ $1 == 'docker' ]] ; then
   -e "s/K8SHA_IP1/$K8SHA_IP1/g" \
   -e "s/K8SHA_IP2/$K8SHA_IP2/g" \
   -e "s/K8SHA_IP3/$K8SHA_IP3/g" \
-  etcd-docker/docker-compose.yaml.tpl > etcd-docker/docker-compose.yaml.tpl
+  etcd-docker/docker-compose.yaml.tpl > etcd-docker/docker-compose.yaml
+  echo docker-compose file create cat etcd-docker/docker-compose.yaml
+  cat
 fi
