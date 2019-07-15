@@ -63,6 +63,7 @@ if [[ $1 == 'docker' ]]; then
   etcd_host=etcd3
 fi
   sed \
+  -e "s/IPLOCAL/$(hostname -i)/g"
   -e "s/HOSTNAME/$etcd_host/g" \
   -e "s/K8SHA_IP1/$K8SHA_IP1/g" \
   -e "s/K8SHA_IP2/$K8SHA_IP2/g" \
