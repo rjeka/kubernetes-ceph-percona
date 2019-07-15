@@ -52,7 +52,7 @@ if [[ $1 == 'etcd' ]] || [[ $1 == 'all' ]]; then
   etcd/etcd.service.tmpl > /etc/systemd/system/etcd.service
 fi
 
-if [[ $1 == 'etcd' ]] ; then
+if [[ $1 == 'docker' ]] ; then
   sed \
   -e "s/HOSTNAME/$(hostname)/g" \
   -e "s/IPLOCAL/$(hostname -i)/g" \
