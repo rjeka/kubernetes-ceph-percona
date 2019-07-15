@@ -51,3 +51,13 @@ if [[ $1 == 'etcd' ]] || [[ $1 == 'all' ]]; then
   -e "s/K8SHA_HOSTNAME3/$K8SHA_HOSTNAME3/g" \
   etcd/etcd.service.tmpl > /etc/systemd/system/etcd.service
 fi
+
+if [[ $1 == 'etcd' ]] ; then
+  sed \
+  -e "s/HOSTNAME/$(hostname)/g" \
+  -e "s/IPLOCAL/$(hostname -i)/g" \
+  -e "s/K8SHA_IP1/$K8SHA_IP1/g" \
+  -e "s/K8SHA_IP2/$K8SHA_IP2/g" \
+  -e "s/K8SHA_IP3/$K8SHA_IP3/g" \
+  etcd-docker/docker-compose.yaml.tpl > etcd-docker/docker-compose.yaml.tpl
+fi
