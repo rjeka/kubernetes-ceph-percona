@@ -1,0 +1,25 @@
+---
+apiVersion: kubeadm.k8s.io/v1beta1
+kind: InitConfiguration
+localAPIEndpoint:
+  advertiseAddress: "IPLOCAL"
+---
+apiVersion: kubeadm.k8s.io/v1beta1
+kind: ClusterConfiguration
+kubernetesVersion: stable
+apiServer:
+  certSANs:
+  - K8SHA_IP1
+  - K8SHA_IP2
+  - K8SHA_IP3
+controlPlaneEndpoint: IPLOCAL
+etcd:
+  external:
+    endpoints:
+    - http://K8SHA_IP1:2379
+    - http://K8SHA_IP2:2379
+    - http://K8SHA_IP3:2379
+networking:
+  podSubnet: 192.168.0.0/16
+  serviceSubnet: "10.96.0.0/12"
+  dnsDomain: "cluster.local"

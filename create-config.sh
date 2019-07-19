@@ -72,3 +72,15 @@ fi
   echo docker-compose file create
   cat etcd-docker/docker-compose.yaml
 fi
+
+if [[ $1 == 'kubeadm' ]] || [[ $1 == 'all' ]]; then
+  sed \
+  -e "s/IPLOCAL/$(hostname -i)/g" \
+  -e "s/HOSTNAME/$etcd_host/g" \
+  -e "s/K8SHA_IP1/$K8SHA_IP1/g" \
+  -e "s/K8SHA_IP2/$K8SHA_IP2/g" \
+  -e "s/K8SHA_IP3/$K8SHA_IP3/g" \
+  kubeadmin/kubeadm-init.yaml.tmpl > kubeadmin/kubeadm-init.yaml
+  echo kubeadm-init file create
+  cat kubeadmin/kubeadm-init.yaml
+fi

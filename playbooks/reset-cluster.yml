@@ -1,0 +1,107 @@
+- name: reset kubernetes and etcd cluster
+  hosts: all
+  become: yes
+  become_method: sudo
+  gather_facts: no
+
+
+  tasks:
+    - name: Reset Kubernetes cluster
+      shell: |
+        kubeadm reset --force
+      become: true
+      ignore_errors: true
+
+    - name: Del all pods (containerd)
+      shell: |
+        crictl stop $(crictl ps -a -q) && \
+        crictl rm $(crictl ps -a -q)
+      become: true
+      ignore_errors: true
+
+    - name: Purge nginx
+      apt:
+        name: nginx
+        state: absent
+        purge: true
+      when:
+        - inventory_hostname in groups['masters']
+        - apiLoadBalancer == "true"
+      ignore_errors: true
+
+    - name: stop etcd
+      systemd:
+        name: etcd
+        state: stopped
+      when: inventory_hostname in groups['masters']
+      ignore_errors: true
+
+    - name: stop CRI containerd
+      systemd:
+        name: containerd
+        state: stopped
+      when:
+        - inventory_hostname in groups['masters']
+      ignore_errors: true
+
+    - name: erase etcd database
+      file:
+        path: /var/lib/etcd/
+        state: absent
+      when: inventory_hostname in groups['masters']
+
+    - name: Delete etcd
+      file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+      - /usr/local/bin/Documentation/
+      - /usr/local/bin/etcd
+      - /usr/local/bin/etcdctl
+      - /usr/local/bin/README-etcdctl.md
+      - /usr/local/bin/README.md
+      - /usr/local/bin/READMEv2-etcdctl.md
+      when:
+        - inventory_hostname in groups['masters']
+
+    - name: Delete containerd
+      file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+      - /etc/systemd/system/containerd.service
+      - /etc/crictl.yaml
+      - /opt/containerd/
+      - /usr/local/bin/containerd
+      - /usr/local/bin/containerd-release
+      - /usr/local/bin/containerd-shim
+      - /usr/local/bin/containerd-shim-runc-v1
+      - /usr/local/bin/containerd-stress
+      - /usr/local/bin/crictl
+      - /usr/local/bin/critest
+      - /usr/local/bin/ctr
+      - /usr/local/sbin/runc
+      ignore_errors: true
+
+
+    - name: Purge docker
+      apt:
+        name: docker
+        state: absent
+        purge: true
+
+    - name: Purge kubeadm, kubelet, kubectl, and shared packages
+      apt:
+        name: "{{ item }}"
+        state: absent
+        purge: yes
+        force: yes
+      with_items:
+      - kubelet
+      - kubeadm
+      - kubectl
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - haproxy
+      ignore_errors: true
