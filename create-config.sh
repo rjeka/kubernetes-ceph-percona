@@ -84,3 +84,13 @@ if [[ $1 == 'kubeadm' ]] || [[ $1 == 'all' ]]; then
   echo kubeadm-init file create
   cat kubeadmin/kubeadm-init.yaml
 fi
+
+if [[ $1 == 'haproxy' ]]; then
+  sed \
+  -e "s/IPLOCAL/$(hostname -i)/g" \
+  -e "s/K8SHA_IP1/$K8SHA_IP1/g" \
+  -e "s/K8SHA_IP2/$K8SHA_IP2/g" \
+  -e "s/K8SHA_IP3/$K8SHA_IP3/g" \
+  haproxy/haproxy.cfg.tmpl > /etc/haproxy/haproxy.cfg
+  systemctl restart haproxy.service
+fi
