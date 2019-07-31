@@ -85,7 +85,7 @@ if [[ $1 == 'kubeadm' ]] || [[ $1 == 'all' ]]; then
   cat kubeadmin/kubeadm-init.yaml
 fi
 
-if [[ $1 == 'haproxy' ]]; then
+if [[ $1 == 'haproxy' ]] || [[ $1 == 'all' ]]; then
   sed \
   -e "s/IPLOCAL/$(hostname -i)/g" \
   -e "s/K8SHA_IP1/$K8SHA_IP1/g" \
