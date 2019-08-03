@@ -94,3 +94,10 @@ if [[ $1 == 'haproxy' ]] || [[ $1 == 'all' ]]; then
   haproxy/haproxy.cfg.tmpl > /etc/haproxy/haproxy.cfg
   systemctl restart haproxy.service
 fi
+
+if [[ $1 == 'ingress' ]] || [[ $1 == 'all' ]]; then
+  sed \
+  -e "s/K8SHA_IP1/$K8SHA_IP1/g" \
+  -e "s/K8SHA_IP2/$K8SHA_IP2/g" \
+  -e "s/K8SHA_IP3/$K8SHA_IP3/g" \
+  ingress/service-nodeport.yaml.tmpl > service-nodeport.yaml
