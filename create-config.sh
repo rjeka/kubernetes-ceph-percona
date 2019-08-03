@@ -100,4 +100,5 @@ if [[ $1 == 'ingress' ]] || [[ $1 == 'all' ]]; then
   -e "s/K8SHA_IP1/$K8SHA_IP1/g" \
   -e "s/K8SHA_IP2/$K8SHA_IP2/g" \
   -e "s/K8SHA_IP3/$K8SHA_IP3/g" \
-  ingress/service-nodeport.yaml.tmpl > service-nodeport.yaml
+  ingress/service-nodeport.yaml.tmpl > ingress/service-nodeport.yaml
+  cat ingress/service-nodeport.yaml
