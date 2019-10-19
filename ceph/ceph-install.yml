@@ -1,0 +1,25 @@
+- name: Install package
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Install apt-transport-https
+      apt:
+        name: ['ntp', 'apt-transport-https']
+
+
+    - name: Add an Apt signing key for ceph
+      apt_key:
+        url: https://download.ceph.com/keys/release.asc
+        state: present
+
+    - name: Add ceph repo
+      apt_repository:
+        repo: deb https://download.ceph.com/debian-mimic/ stretch  main
+        filename: ceph.list
+        state: present
+        update_cache: yes
+
+    - name: Install Ceph-common
+      apt:
+        name: ceph-common
