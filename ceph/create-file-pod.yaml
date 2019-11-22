@@ -1,7 +1,7 @@
 kind: Pod
 apiVersion: v1
 metadata:
-  name: greate-file-pod
+  name: create-file-pod
 spec:
   containers:
   - name: test-pod
