@@ -1,0 +1,26 @@
+---
+apiVersion: kubeadm.k8s.io/v1beta1
+kind: InitConfiguration
+localAPIEndpoint:
+  advertiseAddress: "10.73.71.25"
+---
+apiVersion: kubeadm.k8s.io/v1beta1
+kind: ClusterConfiguration
+kubernetesVersion: stable
+apiServer:
+  certSANs:
+  - 10.73.71.25
+  - 10.73.71.26
+  - 10.73.71.27
+  - 127.0.0.1
+controlPlaneEndpoint: 10.73.71.25
+etcd:
+  external:
+    endpoints:
+    - http://10.73.71.25:2379
+    - http://10.73.71.26:2379
+    - http://10.73.71.27:2379
+networking:
+  podSubnet: 192.168.0.0/16
+  serviceSubnet: "10.96.0.0/12"
+  dnsDomain: "cluster.local"

@@ -1,0 +1,21 @@
+[0;1;32m●[0m etcd.service - etcd
+   Loaded: loaded (/etc/systemd/system/etcd.service; disabled; vendor preset: enabled)
+   Active: [0;1;32mactive (running)[0m since Sun 2019-08-11 22:35:32 MSK; 8s ago
+     Docs: https://github.com/coreos/etcd
+ Main PID: 12518 (etcd)
+    Tasks: 14 (limit: 4915)
+   Memory: 6.3M
+      CPU: 148ms
+   CGroup: /system.slice/etcd.service
+           └─12518 /usr/local/bin/etcd --name master01-test --data-dir /var/lib/etcd --listen-client-urls http://0.0.0.0:2379,http://0.0.0.0:4001 --advertise-client-urls http://10.73.71.25:2379,http://10.73.71.25:4001 --listen-peer-urls http://0.0.0.0:2380 --initial-advertise-peer-urls http://10.73.71.25:2380 --initial-cluster master01-test=http://10.73.71.25:2380,master02-test=http://10.73.71.26:2380,master03-test=http://10.73.71.27:2380 --initial-cluster-token ETCD_TOKEN --initial-cluster-state new
+
+Aug 11 22:35:32 master01-test etcd[12518]: raft.node: b11e73358a31b109 elected leader f67dd9aaa8a44ab9 at term 2
+Aug 11 22:35:32 master01-test etcd[12518]: [0;1;39mset the initial cluster version to 3.3[0m
+Aug 11 22:35:32 master01-test etcd[12518]: enabled capabilities for version 3.3
+Aug 11 22:35:32 master01-test etcd[12518]: published {Name:master01-test ClientURLs:[http://10.73.71.25:2379 http://10.73.71.25:4001]} to cluster d0979b2e7159c1e6
+Aug 11 22:35:32 master01-test systemd[1]: Started etcd.
+Aug 11 22:35:32 master01-test etcd[12518]: ready to serve client requests
+Aug 11 22:35:32 master01-test etcd[12518]: ready to serve client requests
+Aug 11 22:35:32 master01-test etcd[12518]: [0;1;39mserving insecure client requests on [::]:2379, this is strongly discouraged![0m
+Aug 11 22:35:32 master01-test etcd[12518]: [0;1;39mserving insecure client requests on [::]:4001, this is strongly discouraged![0m
+Aug 11 22:35:32 master01-test etcd[12518]: b11e73358a31b109 initialzed peer connection; fast-forwarding 8 ticks (election ticks 10) with 2 active peer(s)

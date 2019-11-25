@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-deployment
+  labels:
+    app: test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: test-pod
+        image: gcr.io/google_containers/busybox:1.24
+        command:
+        - "/bin/sh"
+        args:
+        - "-c"
+        - "sleep 600"
+        volumeMounts:
+        - name: pvc
+          mountPath: "/mnt/test"
+      volumes:
+      - name: pvc
+        persistentVolumeClaim:
+          claimName: claim1
